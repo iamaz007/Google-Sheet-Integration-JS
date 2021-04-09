@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COSLEC</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="shortcut icon" href="logo.jpg" type="image/x-icon">
+</head>
+<body>
+    <div class="container">
+        <div class="pt-2 pb-2">
+            <img src="logo.jpg" width="200" alt="">
+        </div>
+        <div class="row justify-content-center">
+            <!-- <h3>Google Sheets Form</h3> -->
+            
+            <div class="col-md-12">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                      <a class="nav-link active" id="allRecord-tab" data-toggle="tab" href="#allRecord" role="tab" aria-controls="allRecord" aria-selected="true">All Record</a>
+                    </li>
+
+                    <li class="nav-item">
+                      <a class="nav-link" id="addNewRec-tab" data-toggle="tab" href="#addNewRec" role="tab" aria-controls="addNewRec" aria-selected="false">Add New Record</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" id="others-tab" data-toggle="tab" href="#others" role="tab" aria-controls="others" aria-selected="false">Others</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="allRecord" role="tabpanel" aria-labelledby="allRecord-tab">
+                        <div class="row p-3">
+                            <div class="col-md-6">
+                                <div class="form-group ">
+                                    <input type="text" class="form-control" id="searchField" onkeyup="searchFunction()" placeholder="Search for Company Names" title="Type Company Name">
+                                </div>
+
+                                <div class="form-group">
+                                    Search By: <select name="seachByFilter" id="seachByFilter" class="form-control" onchange="searchFunction()">
+                                        <option value="1" selected>Company</option>
+                                        <option value="2">Contact</option>
+                                        <option value="3">Entry By</option>
+                                        <option value="4">Department</option>
+                                        <option value="5">Phone</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <button class="btn btn-primary" id="tableToExportButton" style="display:none;" onclick="tableToExcel('sheetTable', 'name', 'myfile.xls')">Export Table Data To Excel File</button>
+                            </div>
+                        </div>
+                        <div class="left">
+                            <button class="btn btn-info" id="left-button"> < </button>
+                            <button class="btn btn-info" id="right-button">></button>
+                        </div>
+                        <table id="sheetTable" class="table table-striped table-responsive talbe-bordered">
+                            <thead id="tableHead">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Company</th>
+                                    <th>Contact</th>
+                                    <th>Entry By</th>
+                                    <th>Department</th>
+                                    <th>Phone</th>
+                                    <th>Contact Person</th>
+                                    <th>Product</th>
+                                    <th>Address_1</th>
+                                    <th>Address_2</th>
+                                    <th>Address_3</th>
+                                    <th>Postal Code</th>
+                                    <th>Country</th>
+                                    <th>Email</th>
+
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="showData">
+                                <tr>
+                                    <td colspan="19" class="text-center">Fetching...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                    </div>
+                    <div class="tab-pane fade" id="addNewRec" role="tabpanel" aria-labelledby="addNewRec-tab">
+                        <form>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="from-group">
+                                        <label for="company">Company Name</label>
+                                        <input class="form-control" type="text" name="company" id="company" placeholder="Company Name">
+                                    </div>
+                
+                                    <div class="from-group">
+                                        <label for="contact">Contact Name</label>
+                                        <input class="form-control" type="text" name="contact" id="contact" placeholder="Contact Name">
+                                    </div>
+                
+                                    <div class="from-group">
+                                        <label for="entry_by">Entry By</label>
+                                        <input class="form-control" type="text" name="entry_by" id="entry_by" placeholder="Entry By">
+                                    </div>
+                
+                                    <div class="from-group">
+                                        <label for="department">Department</label>
+                                        <input class="form-control" type="text" name="department" id="department" placeholder="Department">
+                                    </div>
+        
+                                    <div class="from-group">
+                                        <label for="phone">Phone</label>
+                                        <input class="form-control" type="text" name="phone" id="phone" placeholder="Phone">
+                                    </div>
+        
+                                    <div class="from-group">
+                                        <label for="country">Country</label>
+                                        <input class="form-control" type="text" name="country" id="country" placeholder="Country">
+                                    </div>
+        
+                                    <div class="from-group">
+                                        <label for="email">Email</label>
+                                        <input class="form-control" type="email" name="email" id="email" placeholder="Email">
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="from-group">
+                                        <label for="contact_person">Contact Person</label>
+                                        <input class="form-control" type="text" name="contact_person" id="contact_person" placeholder="Contact Person">
+                                    </div>
+                
+                
+                                    <div class="from-group">
+                                        <label for="product">Product</label>
+                                        <input class="form-control" type="text" name="product" id="product" placeholder="Product">
+                                    </div>
+        
+                                    <div class="from-group">
+                                        <label for="address1">Address 1</label>
+                                        <input class="form-control" type="text" name="address1" id="address1" placeholder="Address 1">
+                                    </div>
+
+                                    <div class="from-group">
+                                        <label for="address2">Address 2</label>
+                                        <input class="form-control" type="text" name="address2" id="address2" placeholder="Address 2">
+                                    </div>
+        
+                                    <div class="from-group">
+                                        <label for="address3">Address 3</label>
+                                        <input class="form-control" type="text" name="address3" id="address3" placeholder="Address 3">
+                                    </div>
+        
+                                    <div class="from-group">
+                                        <label for="postalCode">Postal Code</label>
+                                        <input class="form-control" type="text" name="postalCode" id="postalCode" placeholder="Postal Code">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <p style="font-weight: bold;" id="manuallyAddMessage"></p>
+                            </div>
+                            <button class="btn btn-primary" type="button" id="insertValueButton" onclick="insert_value()">Save</button>
+                        </form>
+                    </div>
+
+                    <div class="tab-pane fade" id="others" role="tabpanel" aria-labelledby="others-tab">
+                        <div class="row p-3">
+                            <div class="col-md-6">
+                                <div class="form-group ">
+                                    <form enctype="multipart/form-data">
+                                        <label for="upload">Import Data</label>
+                                        <input class="form-control" id="upload" type=file  name="upload" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <button class="btn btn-secondary" data-toggle="modal" data-target="#viewInstructionModal">View Instructions</button>
+                                <button class="btn btn-dark" id="uploadDataButton" style="display:none;" onclick="insertBulkData()">Upload Data</button>
+                                <p><i id="remainingRec"></i></p>
+                            </div>
+                            
+                        </div>
+                    <table id="importSheetTable" class="table table-striped table-responsive talbe-bordered">
+                            <thead id="importTableHead">
+                                <tr>
+                                    <th>Company</th>
+                                    <th>Contact</th>
+                                    <th>Entry By</th>
+                                    <th>Department</th>
+                                    <th>Phone</th>
+                                    <th>Contact Person</th>
+                                    <th>Product</th>
+                                    <th>Address_1</th>
+                                    <th>Address_2</th>
+                                    <th>Address_3</th>
+                                    <th>Postal Code</th>
+                                    <th>Country</th>
+                                    <th>Email</th>
+
+                                </tr>
+                            </thead>
+
+                            <tbody id="importShowData">
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <!--update Modal -->
+    <div class="modal fade" id="updateRecordModal" tabindex="-1" role="dialog" aria-labelledby="updateRecordModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content modal-lg">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Update Record</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <form>
+                <input type="hidden" name="updateId" id="updateId">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="from-group">
+                                <label for="updateCompany">Company Name</label>
+                                <input class="form-control" type="text" name="updateCompany" id="updateCompany" placeholder="Company Name">
+                            </div>
+        
+                            <div class="from-group">
+                                <label for="updateContact">Contact Name</label>
+                                <input class="form-control" type="text" name="updateContact" id="updateContact" placeholder="Contact Name">
+                            </div>
+        
+                            <div class="from-group">
+                                <label for="updateEntryBy">Entry By</label>
+                                <input class="form-control" type="text" name="updateEntryBy" id="updateEntryBy" placeholder="Entry By">
+                            </div>
+        
+                            <div class="from-group">
+                                <label for="updateDepartment">Department</label>
+                                <input class="form-control" type="text" name="updateDepartment" id="updateDepartment" placeholder="Department">
+                            </div>
+
+                            <div class="from-group">
+                                <label for="updatePhone">Phone</label>
+                                <input class="form-control" type="text" name="updatePhone" id="updatePhone" placeholder="Phone">
+                            </div>
+
+                            <div class="from-group">
+                                <label for="updateCountry">Country</label>
+                                <input class="form-control" type="text" name="updateCountry" id="updateCountry" placeholder="Country">
+                            </div>
+
+                            <div class="from-group">
+                                <label for="updateEmail">Email</label>
+                                <input class="form-control" type="email" name="updateEmail" id="updateEmail" placeholder="Email">
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="from-group">
+                                <label for="updateContactPerson">Contact Person</label>
+                                <input class="form-control" type="text" name="updateContactPerson" id="updateContactPerson" placeholder="Contact Person">
+                            </div>
+        
+                            <div class="from-group">
+                                <label for="updateProduct">Product</label>
+                                <input class="form-control" type="text" name="updateProduct" id="updateProduct" placeholder="Product">
+                            </div>
+
+                            <div class="from-group">
+                                <label for="updateAddress1">Address 1</label>
+                                <input class="form-control" type="text" name="updateAddress1" id="updateAddress1" placeholder="Address 1">
+                            </div>
+
+                            <div class="from-group">
+                                <label for="updateAddress2">Address 2</label>
+                                <input class="form-control" type="text" name="updateAddress2" id="updateAddress2" placeholder="Address 2">
+                            </div>
+
+                            <div class="from-group">
+                                <label for="updateAddress3">Address 3</label>
+                                <input class="form-control" type="text" name="updateAddress3" id="updateAddress3" placeholder="Address 3">
+                            </div>
+
+                            <div class="from-group">
+                                <label for="updatePostalCode">Postal Code</label>
+                                <input class="form-control" type="text" name="updatePostalCode" id="updatePostalCode" placeholder="Postal Code">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <button class="btn btn-primary" type="button" onclick="insert_value()">Save</button> -->
+                    <div class="form-group">
+                        <p style="color: green; font-weight: bold;" id="updateMessage"></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" onclick="update_value()" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+        </div>
+    </div>
+
+
+    <!-- view instructions modal -->
+    <div class="modal fade" id="viewInstructionModal" tabindex="-1" role="dialog" aria-labelledby="viewInstructionModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="exampleModalLongTitle">
+                    <strong>Instructions:</strong> 
+                    How To Import Data and upload in Google Sheets</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <ol>
+                    <li>Only excel file will be accepted (.xlxs extension only).</li>
+                    <li>Make sure file is not password protected or read only.</li>
+                    <li>Make sure, columns are positioned correctly to avoid problems after uploading.</li>
+                    <li>You can compare columns position with the table shown in this page.</li>
+                    <!-- <li>Don't include Column Names (Header), in excel files, Column Name will be added automatically.</li> -->
+                    <li>Don't include any ID value in data set, it will be added automatically</li>
+                    
+                </ol>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+            </div>
+        </div>
+    </div>
+</body>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <script>
+        var script_url = "https://script.google.com/macros/s/AKfycbwR4eBQ_g212oi0nMrawTlEFNo7-SBocSVEMX4WqC4f7nsnoYE/exec";
+        var allData=[];
+        var lastId;
+        var bulkData;
+        $(document).ready(function(){
+            read_data();
+
+            $("#right-button").click(function() {
+            event.preventDefault();
+                $(".table-responsive").animate(
+                    {
+                    scrollLeft: "+=300px"
+                    },
+                    "slow"
+                );
+            });
+
+            $("#left-button").click(function() {
+            event.preventDefault();
+                $(".table-responsive").animate(
+                    {
+                    scrollLeft: "-=300px"
+                    },
+                    "slow"
+                );
+            });
+        });
+
+        //reading data from online sheet
+        function read_data()
+        {
+            allData=[];
+            var res='';
+            var url = script_url + "?action=read";
+            jQuery.ajax({
+                crossDomain: true,
+                url: url,
+                method: "GET",
+                dataType: "jsonp",
+                success: function(json)
+                {
+                    // var rest = JSON.parse(json)
+                    if(typeof json === "undefined")
+                    {
+                        res += "<tr>";
+                            res +="<td>No Record Found</td>";
+                        res += "</tr>";
+                    }
+                    else
+                    {
+                        console.log(json);
+                    
+                        getLastId(json);
+                        console.log(json);
+                        allData = json.records;
+                        var revData = json.records.reverse();
+                        for (var i = 0; i < revData.length; i++) 
+                        {
+                            res += "<tr>";
+                            res +="<td>"+(i+1)+
+                            "</td> <td>"+
+                                revData[i].Company+
+                            "</td> <td>"+
+                                revData[i].Contact+
+                            "</td> <td>"+
+                                revData[i].Entry_By+
+                            "</td> <td>"+
+                                revData[i].Department+
+                            "</td> <td>"+
+                                revData[i].Phone+
+                            "</td> <td>"+
+                                revData[i].Contact_Person+
+                            "</td> <td>"+
+                                revData[i].Product+
+                            "</td> <td>"+
+                                revData[i].Address_1+
+                            "</td> <td>"+
+                                revData[i].Address_2+
+                            "</td> <td>"+
+                                revData[i].Address_3+
+                            "</td> <td>"+
+                                revData[i].Postal_Code+
+                            "</td> <td>"+
+                                revData[i].Country+
+                            "</td> <td>"+
+                                revData[i].Email+
+
+                            "</td> <td> <button class='btn btn-success' data-toggle='modal' data-target='#updateRecordModal' onclick='getEditableRecord("+
+                                revData[i].ID+
+                            ")'>Edit</button></td> <td> <button class='btn btn-danger' onclick='deleteRecord("+
+                                revData[i].ID+
+                            ")'>Delete</button></td>";
+                            res += "</tr>";
+                        }
+                    }
+                        
+                    
+                    
+                    $('#showData').html(res);
+                    $('#tableToExportButton').css('display','block');
+                    $('#insertValueButton').removeAttr('disabled','disabled');
+                    
+                    
+                }
+            });
+            // $.getJSON(url, function (json) 
+            // {
+                
+            // });
+        }
+
+        function getEditableRecord(id)
+        {
+            for (let index = 0; index < allData.length; index++) 
+            {
+                if (allData[index].ID==id) 
+                {
+                    // console.log(allData[index]);
+
+                    // assign values to textfeilds
+                    $('#updateAddress1').val(allData[index].Address_1);
+                    $('#updateAddress2').val(allData[index].Address_2);
+                    $('#updateAddress3').val(allData[index].Address_3);
+                    $('#updateCompany').val(allData[index].Company);
+
+                    $('#updateContact').val(allData[index].Contact);
+                    $('#updateEntryBy').val(allData[index].Entry_By);
+                    $('#updateDepartment').val(allData[index].Department);
+                    $('#updatePhone').val(allData[index].Phone);
+
+                    $('#updateCountry').val(allData[index].Country);
+                    $('#updateEmail').val(allData[index].Email);
+                    $('#updateContactPerson').val(allData[index].Contact_Person);
+
+                    $('#updateProduct').val(allData[index].Product);
+                    $('#updatePostalCode').val(allData[index].Postal_Code);
+
+                    $('#updateId').val(allData[index].ID);
+                }
+                
+            }
+            // console.log(allData[0]);
+        }
+
+        function deleteRecord(id)
+        {
+            console.log(id);
+            delete_value(id);
+        }
+
+        function getLastId(array)
+        {
+            var tempId=0;
+            if (array.records.length<=0) 
+            {
+                lastId=0;
+            } 
+            else 
+            {
+                for (let index = 0; index < array.records.length; index++) 
+                {
+                    tempId = array.records[index].ID;
+                    
+                }
+                lastId = tempId;
+            }
+            // console.log(array.records.length);
+            // console.log(lastId);
+        }
+
+        function insert_value() 
+        {
+            // console.log(typeof lastId);
+            if (typeof lastId === "undefined") {
+                lastId=0;
+            }
+            $('#insertValueButton').attr('disabled','disabled');
+            $('#manuallyAddMessage').css('display','none');
+            var id = lastId+1;
+            var address1 = $("#address1").val();
+            var address2 = $("#address2").val();
+
+            var address3 = $("#address3").val();
+            var postalCode = $("#postalCode").val();
+            var company = $("#company").val();
+
+            var contact = $("#contact").val();
+            var country = $("#country").val();
+            var department = $("#department").val();
+
+            var email = $("#email").val();
+            var contact_person = $("#contact_person").val();
+            var phone = $("#phone").val();
+
+            var product = $("#product").val();
+            var entry_by = $("#entry_by").val();
+
+            // &action=insert
+            // console.log(String(address1).replaceAll( "#", "" ));
+            if(searchInAndVerify(email, 'email') || searchInAndVerify(phone, 'phone'))
+            {
+                $('#manuallyAddMessage').css('display','block');
+                $('#manuallyAddMessage').css('color','red');
+                $('#manuallyAddMessage').text('User Exist');
+                $('#insertValueButton').removeAttr('disabled','disabled');
+            }
+            else
+            {      
+                // console.log('not found'); 
+                var url = script_url 
+                + "?callback=ctrlq&id=" + id
+                + "&address1=" + String(address1).replaceAll( "#", "" ) 
+                + "&address2=" + String(address2).replaceAll( "#", "" ) 
+                
+                + "&address3=" + String(address3).replaceAll( "#", "" ) 
+                + "&postalCode=" + String(postalCode).replaceAll( "#", "" ) 
+                + "&company=" + String(company).replaceAll( "#", "" ) 
+                
+                + "&contact=" + String(contact).replaceAll( "#", "" )
+                + "&country=" + String(country).replaceAll( "#", "" ) 
+                + "&department=" + String(department).replaceAll( "#", "" ) 
+                
+                + "&email=" + String(email).replaceAll( "#", "" ) 
+                + "&contact_person=" + String(contact_person).replaceAll( "#", "" ) 
+                + "&phone=" + String(phone).replaceAll( "#", "" )
+                
+                + "&product=" + String(product).replaceAll( "#", "" ) 
+                + "&entry_by=" + String(entry_by).replaceAll( "#", "" ) 
+                + "&action=insert";
+
+
+                jQuery.ajax({
+                    crossDomain: true,
+                    url: url,
+                    method: "GET",
+                    dataType: "jsonp",
+                    
+                });
+                $('#manuallyAddMessage').css('display','block');
+                $('#manuallyAddMessage').css('color','green');
+                $('#manuallyAddMessage').text('Record Saved Successfully');
+            }
+
+        }
+
+        function searchInAndVerify(value, searchType)
+        {
+            var found;
+            if (searchType=='email') 
+            {
+                found=false;
+                for (let index = 0; index < allData.length; index++) 
+                {
+                    if (allData[index].Email==value) 
+                    {
+                        found=true;
+                        break;
+                    }
+                }
+                return found;
+            }
+            if (searchType=='phone') 
+            {
+                found=false;
+                for (let index = 0; index < allData.length; index++) 
+                {
+                    if (allData[index].Phone==value) 
+                    {
+                        found=true;
+                        break;
+                    }
+                }
+                return found;
+            }
+        }
+
+        function ctrlq(e) {
+            read_data();
+        }
+
+        function delete_value(id) {
+            var url = script_url + "?id=" + id + "&action=delete";
+
+            var request = jQuery.ajax({
+                crossDomain: true,
+                url: url,
+                method: "GET",
+                dataType: "jsonp",
+                success: function ()
+                {
+                    read_data();
+                }
+            });
+            console.log(request);
+        }
+
+        function searchFunction() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("searchField");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("sheetTable");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) 
+            {
+                td = tr[i].getElementsByTagName("td")[parseInt($('#seachByFilter').val())];
+                if (td) 
+                {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) 
+                    {
+                        tr[i].style.display = "";
+                    } 
+                    else 
+                    {
+                        tr[i].style.display = "none";
+                    }
+                }       
+            }
+        }
+
+        function update_value() 
+        {
+            $('#updateMessage').css('display', 'none');
+
+            var id = $("#updateId").val();
+            var address1 = $("#updateAddress1").val();
+            var address2 = $("#updateAddress2").val();
+            var address3 = $("#updateAddress3").val();
+            
+            var postalCode = $("#updatePostalCode").val();
+            var company = $("#updateCompany").val();
+            var contact = $("#updateContact").val();
+            var country = $("#updateCountry").val();
+
+            var department = $("#updateDepartment").val();
+            var email = $("#updateEmail").val();
+            var contact_person = $("#updateContactPerson").val();
+            var phone = $("#updatePhone").val();
+
+            var product = $("#updateProduct").val();
+            var entry_by = $("#updateEntryBy").val();
+
+            // var url = script_url + "?callback=ctrlq&name=" + name + "&id=" + id1 + "&action=update";
+            var url = script_url 
+            + "?callback=ctrlq&id=" + id 
+            + "&address1=" + address1.replaceAll( "#", "" )
+            + "&address2=" + address2.replaceAll( "#", "" )
+            
+            + "&address3=" + address3.replaceAll( "#", "" ) 
+            + "&postalCode=" + postalCode.replaceAll( "#", "" ) 
+            + "&company=" + company.replaceAll( "#", "" ) 
+            
+            + "&contact=" + contact.replaceAll( "#", "" ) 
+            + "&country=" + country.replaceAll( "#", "" ) 
+            + "&department=" + department.replaceAll( "#", "" ) 
+            
+            + "&email=" + email.replaceAll( "#", "" ) 
+            + "&contact_person=" + contact_person.replaceAll( "#", "" ) 
+            + "&phone=" + phone.replaceAll( "#", "" ) 
+            
+            + "&product=" + product.replaceAll( "#", "" ) 
+            + "&entry_by=" + entry_by.replaceAll( "#", "" ) 
+            + "&action=update";
+
+            jQuery.ajax({
+                crossDomain: true,
+                url: url,
+                method: "GET",
+                dataType: "jsonp",
+                success:function(data)
+                {
+                    $('#updateMessage').css('display', 'block');
+                    $('#updateMessage').text('Record Updated');
+                }
+            });
+        }
+
+
+        function tableToExcel(table, name, filename) {
+            let uri = 'data:application/vnd.ms-excel;base64,', 
+            template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><title></title><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--><meta http-equiv="content-type" content="text/plain; charset=UTF-8"/></head><body><table>{table}</table></body></html>', 
+            base64 = function(s) { return window.btoa(decodeURIComponent(encodeURIComponent(s))) },         format = function(s, c) { return s.replaceAll(/{(\w+)}/g, function(m, p) { return c[p]; })}
+            
+            if (!table.nodeType) table = document.getElementById(table)
+            var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}
+
+            var link = document.createElement('a');
+            link.download = filename;
+            link.href = uri + base64(format(template, ctx));
+            link.click();
+        }
+    </script>
+    
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js"></script>
+    <script>
+        var ExcelToJSON = function() {
+            bulkData = [];
+            this.parseExcel = function(file) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                var data = e.target.result;
+                var workbook = XLSX.read(data, {
+                    type: 'binary'
+                });
+                workbook.SheetNames.forEach(function(sheetName) {
+                        // Here is your object
+                        var XL_row_object = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
+                        var json_object = JSON.stringify(XL_row_object);
+                        bulkData = JSON.parse(json_object)
+                        displayImportedRecordInTable(bulkData);
+                        $('#uploadDataButton').css('display','inline');
+                        // jQuery( '#xlx_json' ).val( json_object );
+                    })
+                };
+
+                reader.onerror = function(ex) {
+                    console.log(ex);
+                };
+
+                reader.readAsBinaryString(file);
+            };
+        };
+
+        function handleFileSelect(evt) {
+            
+            var files = evt.target.files; // FileList object
+            var xl2json = new ExcelToJSON();
+            xl2json.parseExcel(files[0]);
+        }
+
+        function displayImportedRecordInTable(data)
+        {
+            var res='';
+            $('#remainingRec').text(data.length + ' Records Found');
+            // console.log(data[0].ID);
+            for (var i = 0; i < data.length; i++) 
+            {
+                res += "<tr>";
+                res +="<td>"+
+                    data[i].Company+
+                "</td> <td>"+
+                    data[i].Contact+
+                "</td> <td>"+
+                    data[i].Entry_By+
+                "</td> <td>"+
+                    data[i].Department+
+                "</td> <td>"+
+                    data[i].Phone+
+                "</td> <td>"+
+                    data[i].Contact_Person+
+                "</td> <td>"+
+                    data[i].Product+
+                "</td> <td>"+
+                    data[i].Address_1+
+                "</td> <td>"+
+                    data[i].Address_2+
+                "</td> <td>"+
+                    data[i].Address_3+
+                "</td> <td>"+
+                    data[i].Postal_Code+
+                "</td> <td>"+
+                    data[i].Country+
+                "</td> <td>"+
+                    data[i].Email+
+
+                "</td> ";
+                res += "</tr>";
+            }
+            $('#importShowData').html(res);
+        }
+
+        async function insertBulkData()
+        {   
+            $('#uploadDataButton').css('display','none');
+            i=0;j=1;
+             //this code is executed when all fetch calls are done
+            await recursive(i,j).then(()=>{
+                
+                console.log('all done');
+            })
+                   
+        }
+        recursive = async(i,j)=>{
+            url = urlmaker(i,j);
+            await(fetch(url).then(res=>{
+                if(i+1 < bulkData.length){
+                    i++;j++;
+                    recursive(i,j);
+                }
+                else{
+                    read_data();
+                    return;
+                }
+            }))
+        }
+        
+        function urlmaker(i,j){
+            if (typeof lastId === "undefined") {
+                lastId=0;
+            }
+            var remainging = ((bulkData.length-j)+1);
+            $('#remainingRec').text(remainging + ' Records Remaining');
+            if (remainging==1) 
+            {
+                $('#remainingRec').text('Record Saved Successfully');
+            }
+            console.log();
+            return script_url 
+                + "?id=" + (lastId+j)
+                + "&address1=" + String(bulkData[i].Address_1).replaceAll( "#", "" )  
+                + "&address2=" + String(bulkData[i].Address_2).replaceAll( "#", "" )  
+                
+                + "&address3=" + String(bulkData[i].Address_3).replaceAll( "#", "" )  
+                + "&postalCode=" + String(bulkData[i].Postal_Code).replaceAll( "#", "" )  
+                + "&company=" + String(bulkData[i].Company).replaceAll( "#", "" )  
+                
+                + "&contact=" + String(bulkData[i].Contact).replaceAll( "#", "" )  
+                + "&country=" + String(bulkData[i].Country).replaceAll( "#", "" ) 
+                + "&department=" + String(bulkData[i].Department).replaceAll( "#", "" )  
+                
+                + "&email=" + String(bulkData[i].Email).replaceAll( "#", "" )  
+                + "&contact_person=" + String(bulkData[i].Contact_Person).replaceAll( "#", "" )  
+                + "&phone=" + String(bulkData[i].Phone).replaceAll( "#", "" )  
+                
+                + "&product=" + String(bulkData[i].Product).replaceAll( "#", "" )  
+                + "&entry_by=" + String(bulkData[i].Entry_By).replaceAll( "#", "" )  
+                + "&action=insert";
+            j=1;
+        }
+            // read_data();
+        
+</script>
+
+    <script>
+        document.getElementById('upload').addEventListener('change', handleFileSelect, false);
+    </script>
+</html>
